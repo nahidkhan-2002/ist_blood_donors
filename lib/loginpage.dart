@@ -36,8 +36,10 @@ class _LoginpageState extends State<Loginpage> {
         ),
         centerTitle: true,
       ),
+
       body: Stack(
         children: [
+          ScreenBackground(context),
           LayoutBuilder(
             builder: (context, constraints) {
               double horizontalPadding =

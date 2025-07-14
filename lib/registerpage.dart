@@ -15,6 +15,7 @@ class _RegisterpageState extends State<Registerpage> {
     return Scaffold(
       body: Stack(
         children: [
+          ScreenBackgroundReg(context),
           //name ,phone number,address,blood group,department,session,password,confirm password
           LayoutBuilder(
             builder: (context, constraints) {
@@ -115,7 +116,6 @@ class _RegisterpageState extends State<Registerpage> {
                                     },
                                     style: ElevatedButton.styleFrom(
                                       minimumSize: Size(350, 50),
-
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.zero,
                                       ),

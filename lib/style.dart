@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 const colorRed = Color.fromARGB(255, 225, 83, 83);
 const colorBlue = Color.fromARGB(255, 0, 123, 255);
@@ -57,6 +58,23 @@ InputDecoration AppInputDecorationPass(label) {
   );
 }
 
-ScreenBackground (){
-  Svgpicture.
+ScreenBackground(context) {
+  return Image.asset(
+    'asset_project/loginbg.png',
+    alignment: Alignment.center,
+    colorBlendMode: BlendMode.screen,
+    width: MediaQuery.of(context).size.width,
+    height: MediaQuery.of(context).size.height,
+    fit: BoxFit.cover,
+  );
+}
+
+ScreenBackgroundReg(context) {
+  return SvgPicture.asset(
+    'asset_project/reg_bg.png',
+    alignment: Alignment.center,
+    width: MediaQuery.of(context).size.width,
+    height: MediaQuery.of(context).size.height,
+    fit: BoxFit.cover,
+  );
 }
