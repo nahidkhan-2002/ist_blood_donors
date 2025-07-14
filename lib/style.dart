@@ -71,7 +71,7 @@ ScreenBackground(context) {
 
 ScreenBackgroundReg(context) {
   return SvgPicture.asset(
-    'asset_project/reg_bg.png',
+    'asset_project/reg_bg.svg',
     alignment: Alignment.center,
     width: MediaQuery.of(context).size.width,
     height: MediaQuery.of(context).size.height,
