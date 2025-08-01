@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 const colorRed = Color.fromARGB(255, 225, 83, 83);
 const colorBlue = Color.fromARGB(255, 0, 123, 255);
@@ -77,4 +78,15 @@ ScreenBackgroundReg(context) {
     height: MediaQuery.of(context).size.height,
     fit: BoxFit.cover,
   );
+}
+
+void showtoast(String message)
+{
+  Fluttertoast.showToast(msg: message,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.black54,
+      textColor: Colors.white,
+      fontSize: 16.0);
 }

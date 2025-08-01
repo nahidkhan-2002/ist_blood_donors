@@ -1,6 +1,7 @@
 import 'style.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:flutter/material.dart';
+import 'package:ist_blood_donors/apipage.dart';
 
 class Registerpage extends StatefulWidget {
   const Registerpage({super.key});
@@ -9,7 +10,46 @@ class Registerpage extends StatefulWidget {
   State<Registerpage> createState() => _RegisterpageState();
 }
 
+var Loading = false;
+
 class _RegisterpageState extends State<Registerpage> {
+  Map<String, String> formdata = {
+    'name': '',
+    'phone': '',
+    'address': '',
+    'bloodGroup': '',
+    'department': '',
+    'session': '',
+    'password': '',
+    'confirmPassword': '',
+  };
+
+  void inputonchange(String key, String val) {
+    setState(() {
+      formdata.update(key, (value) => val);
+    });
+  }
+
+  validateAndSubmit() async {
+    for (var key in formdata.keys) {
+      if (formdata[key] == null || formdata[key]!.trim().isEmpty) {
+        showtoast('Please fill in the fields');
+        // Return empty widget if validation fails
+      }
+    }
+    if (formdata['password'] != formdata['confirmPassword']) {
+      showtoast("password doesn't match");
+    } else {
+      setState(() {
+        Loading = true;
+      });
+      await productcreateRequest(formdata);
+      setState(() {
+        Loading = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,46 +84,62 @@ class _RegisterpageState extends State<Registerpage> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               TextFormField(
-                                onChanged: (value) {},
+                                onChanged: (value) {
+                                  inputonchange('name', value);
+                                },
                                 decoration: AppInputDecoration('Name'),
                               ), //name
                               SizedBox(height: 16),
                               TextFormField(
-                                onChanged: (value) {},
+                                onChanged: (value) {
+                                  inputonchange('phone', value);
+                                },
                                 decoration: AppInputDecoration('Phone Number'),
                               ), //phone number
                               SizedBox(height: 16),
                               TextFormField(
-                                onChanged: (value) {},
+                                onChanged: (value) {
+                                  inputonchange('address', value);
+                                },
                                 decoration: AppInputDecoration('Address'),
                               ), // address
                               SizedBox(height: 16),
                               TextFormField(
-                                onChanged: (value) {},
+                                onChanged: (value) {
+                                  inputonchange('bloodGroup', value);
+                                },
                                 decoration: AppInputDecoration(
                                   "Blood Group (ex O+ AB+ B-)",
                                 ),
                               ), // blood group
                               SizedBox(height: 16),
                               TextFormField(
-                                onChanged: (value) {},
+                                onChanged: (value) {
+                                  inputonchange('department', value);
+                                },
                                 decoration: AppInputDecoration("Department"),
                               ), // department
                               SizedBox(height: 16),
                               TextFormField(
-                                onChanged: (value) {},
+                                onChanged: (value) {
+                                  inputonchange('session', value);
+                                },
                                 decoration: AppInputDecoration("Session"),
                               ), //session
                               SizedBox(height: 16),
                               TextFormField(
-                                onChanged: (value) {},
+                                onChanged: (value) {
+                                  inputonchange('password', value);
+                                },
                                 decoration: AppInputDecorationPass("Password"),
                                 obscureText: true,
                                 obscuringCharacter: '*',
                               ), //password
                               SizedBox(height: 16),
                               TextFormField(
-                                onChanged: (value) {},
+                                onChanged: (value) {
+                                  inputonchange('confirmPassword', value);
+                                },
                                 decoration: AppInputDecorationPass(
                                   "Confirm Password",
                                 ),
@@ -95,27 +151,15 @@ class _RegisterpageState extends State<Registerpage> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   ElevatedButton(
-                                    onPressed: () {
-                                      ScaffoldMessenger.of(
-                                        context,
-                                      ).showSnackBar(
-                                        SnackBar(
-                                          content: Text(
-                                            'Registration successful',
-                                          ),
-                                          duration: Duration(seconds: 3),
-                                          backgroundColor: Colors.green,
-                                          behavior: SnackBarBehavior.floating,
-                                          shape: RoundedRectangleBorder(),
-                                        ),
-                                      );
+                                    onPressed: () async {
+                                      await validateAndSubmit();
                                       Navigator.pushReplacementNamed(
                                         context,
                                         'login',
                                       );
                                     },
                                     style: ElevatedButton.styleFrom(
-                                      minimumSize: Size(350, 50),
+                                      minimumSize: Size(45, 45),
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.zero,
                                       ),

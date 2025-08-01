@@ -1,14 +1,14 @@
 import 'profilepage.dart';
 import 'mainlistpage.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:ist_blood_donors/contactus.dart';
 import 'package:ist_blood_donors/loginpage.dart';
 import 'package:ist_blood_donors/registerpage.dart';
 import 'package:ist_blood_donors/developerdetails.dart';
 
-
-
 void main() {
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(const MyApp());
 }
 
@@ -27,8 +27,8 @@ class MyApp extends StatelessWidget {
         'login': (context) => Loginpage(),
         'mainlistpage': (context) => Mainlistpage(),
         'profile': (context) => Profilepage(),
-        'contact' : (context) => Contactus(),
-        'developer' : (context) => Developerdetails()
+        'contact': (context) => Contactus(),
+        'developer': (context) => Developerdetails(),
       },
     );
   }
