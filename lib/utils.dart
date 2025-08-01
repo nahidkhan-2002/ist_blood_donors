@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ist_blood_donors/style.dart';
+import 'package:ist_blood_donors/loginpage.dart';
+import 'package:page_transition/page_transition.dart';
 
 Widget buildDrawerList(BuildContext context) {
   SnackBar snackBar = SnackBar(
@@ -53,8 +55,15 @@ Widget buildDrawerList(BuildContext context) {
         title: const Text('Logout'),
         leading: Icon(Icons.logout),
         onTap: () {
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          Navigator.pushReplacementNamed(context, 'login');
+          showtoast("Logged Out");
+          Navigator.pushReplacement(
+            context,
+            PageTransition(
+              type: PageTransitionType.leftToRightWithFade,
+              child: Loginpage(),
+              duration: Duration(milliseconds: 400),
+            ),
+          );
         },
       ),
     ],

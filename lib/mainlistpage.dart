@@ -42,6 +42,9 @@ class _MainlistpageState extends State<Mainlistpage> {
               : (LayoutBuilder(
                 builder: (context, constraints) {
                   return ListView.builder(
+                    physics: BouncingScrollPhysics(
+                      parent: AlwaysScrollableScrollPhysics(),
+                    ),
                     padding: EdgeInsets.all(16),
                     itemCount: nameList.length,
                     itemBuilder: (context, index) {

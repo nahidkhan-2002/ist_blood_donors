@@ -1,6 +1,9 @@
 import 'package:lottie/lottie.dart';
 import 'package:flutter/material.dart';
 import 'package:ist_blood_donors/style.dart';
+import 'package:ist_blood_donors/registerpage.dart';
+import 'package:ist_blood_donors/mainlistpage.dart';
+import 'package:page_transition/page_transition.dart';
 
 class Loginpage extends StatefulWidget {
   const Loginpage({super.key});
@@ -83,9 +86,14 @@ class _LoginpageState extends State<Loginpage> {
                           children: [
                             ElevatedButton(
                               onPressed: () {
-                                Navigator.pushReplacementNamed(
+                                Navigator.push(
                                   context,
-                                  'mainlistpage',
+                                  PageTransition(
+                                    type:
+                                        PageTransitionType.rightToLeftWithFade,
+                                    child: Mainlistpage(),
+                                    duration: Duration(milliseconds: 400),
+                                  ),
                                 );
                               },
                               style: ElevatedButton.styleFrom(
@@ -105,9 +113,13 @@ class _LoginpageState extends State<Loginpage> {
                             Text("Don't have an account?"),
                             TextButton(
                               onPressed: () {
-                                Navigator.pushReplacementNamed(
+                                Navigator.pushReplacement(
                                   context,
-                                  'register',
+                                  PageTransition(
+                                    type: PageTransitionType.fade,
+                                    child: Registerpage(),
+                                    duration: Duration(milliseconds: 300),
+                                  ),
                                 );
                               },
                               child: Text("Register"),
