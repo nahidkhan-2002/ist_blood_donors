@@ -1,20 +1,49 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:ist_blood_donors/style.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-productcreateRequest(formdata) async {
-  var url = Uri.parse(
-    "https://688c6580cd9d22dda5ccf721.mockapi.io/api/v1/informations",
-  );
-  var postBody = json.encode(formdata);
-  var postHeader = {"Content-Type": "application/json"};
+List<String> nameList = [];
+List<String> phoneList = [];
+List<String> bloodGroupList = [];
+List<String> departmentList = [];
+List<String> sessionList = [];
 
-  final response = await http.post(url, headers: postHeader, body: postBody);
-  var resultCode = response.statusCode;
-  var resultBody = json.decode(response.body);
+Future<void> productcreateRequest(formdata) async {
+  try {
+    CollectionReference collectionref = FirebaseFirestore.instance.collection(
+      'informations',
+    );
+    await collectionref.add(formdata);
+  } catch (e) {
+    showtoast('something went wrong');
+    print('Firestore add error : $e');
+  }
+}
 
-  if (resultCode >= 200 && resultCode < 300) {
-  } else if (resultCode > 300) {
-    showtoast('something wrong !');
+Future<void> fetchAllInformation() async {
+  try {
+    final collection = FirebaseFirestore.instance.collection('informations');
+    final snapshot = await collection.get();
+
+    // Clear previous data if re-fetching
+    nameList.clear();
+    phoneList.clear();
+    bloodGroupList.clear();
+    departmentList.clear();
+    sessionList.clear();
+
+    for (var doc in snapshot.docs) {
+      final data = doc.data() as Map<String, dynamic>;
+
+      nameList.add(data['name'] ?? '');
+      phoneList.add(data['phone'] ?? '');
+      bloodGroupList.add(data['bloodGroup'] ?? '');
+      departmentList.add(data['department'] ?? '');
+      sessionList.add(data['session'] ?? '');
+    }
+
+    showtoast("Data loaded successfully ✅");
+  } catch (e) {
+    showtoast('Something went wrong while fetching data');
+    print("Firestore fetch error: $e");
   }
 }

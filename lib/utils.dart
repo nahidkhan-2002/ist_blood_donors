@@ -48,7 +48,7 @@ Widget buildDrawerList(BuildContext context) {
           Navigator.pushReplacementNamed(context, 'developer');
         },
       ),
-      const SizedBox(height: 150),
+      SizedBox(height: MediaQuery.of(context).size.height * 0.5),
       ListTile(
         title: const Text('Logout'),
         leading: Icon(Icons.logout),
@@ -59,5 +59,4 @@ Widget buildDrawerList(BuildContext context) {
       ),
     ],
   );
-  
 }

@@ -1,14 +1,21 @@
 import 'profilepage.dart';
 import 'mainlistpage.dart';
+import 'firebase_options.dart'; 
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:ist_blood_donors/contactus.dart';
 import 'package:ist_blood_donors/loginpage.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:ist_blood_donors/registerpage.dart';
 import 'package:ist_blood_donors/developerdetails.dart';
 
-void main() {
+
+void main() async {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
