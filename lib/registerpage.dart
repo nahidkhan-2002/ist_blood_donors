@@ -164,7 +164,9 @@ class _RegisterpageState extends State<Registerpage> {
                                                 0.055,
                                           ),
                                           shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.zero,
+                                            borderRadius: BorderRadius.circular(
+                                              30,
+                                            ),
                                           ),
                                         ),
                                         child: Shimmer.fromColors(

@@ -13,7 +13,7 @@ class Splashscreen extends StatelessWidget {
       splash: LottieBuilder.asset('lottie/main_Loading.json'),
       nextScreen: Getstarted(),
       splashIconSize: 400,
-      duration: 5000,
+      duration: 6000,
       pageTransitionType: PageTransitionType.fade,
     );
   }

@@ -27,7 +27,7 @@ Widget buildDrawerList(BuildContext context) {
         title: const Text('Profile'),
         leading: Icon(Icons.person),
         onTap: () {
-          Navigator.pushReplacementNamed(context, 'profile');
+          //Navigator.pushReplacementNamed(context, 'profile');
         },
       ),
       ListTile(
@@ -41,14 +41,14 @@ Widget buildDrawerList(BuildContext context) {
         title: const Text('Contact Us'),
         leading: Icon(Icons.call),
         onTap: () {
-          Navigator.pushReplacementNamed(context, 'contact');
+          //Navigator.pushReplacementNamed(context, 'contact');
         },
       ),
       ListTile(
         title: const Text('About Developer'),
         leading: Icon(Icons.settings),
         onTap: () {
-          Navigator.pushReplacementNamed(context, 'developer');
+          //Navigator.pushReplacementNamed(context, 'developer');
         },
       ),
       SizedBox(height: MediaQuery.of(context).size.height * 0.5),
