@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ist_blood_donors/style.dart';
 import 'package:ist_blood_donors/loginpage.dart';
+import 'package:ist_blood_donors/get_started.dart';
 import 'package:page_transition/page_transition.dart';
 
 Widget buildDrawerList(BuildContext context) {
@@ -52,15 +53,15 @@ Widget buildDrawerList(BuildContext context) {
       ),
       SizedBox(height: MediaQuery.of(context).size.height * 0.5),
       ListTile(
-        title: const Text('Logout'),
+        title: const Text('Quit'),
         leading: Icon(Icons.logout),
         onTap: () {
-          showtoast("Logged Out");
+          showtoast("Thank You");
           Navigator.pushReplacement(
             context,
             PageTransition(
               type: PageTransitionType.leftToRightWithFade,
-              child: Loginpage(),
+              child: Getstarted(),
               duration: Duration(milliseconds: 400),
             ),
           );

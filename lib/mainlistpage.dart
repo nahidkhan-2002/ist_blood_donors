@@ -1,6 +1,8 @@
+import 'package:lottie/lottie.dart';
 import 'package:flutter/material.dart';
 import 'package:ist_blood_donors/utils.dart';
 import 'package:ist_blood_donors/apipage.dart';
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 
 class Mainlistpage extends StatefulWidget {
   const Mainlistpage({super.key});
@@ -38,7 +40,7 @@ class _MainlistpageState extends State<Mainlistpage> {
       drawer: Drawer(child: buildDrawerList(context)),
       body:
           Loading
-              ? (Center(child: CircularProgressIndicator()))
+              ? Center(child: (CircularProgressIndicator()))
               : (LayoutBuilder(
                 builder: (context, constraints) {
                   return ListView.builder(

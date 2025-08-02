@@ -7,15 +7,18 @@ List<String> bloodGroupList = [];
 List<String> departmentList = [];
 List<String> sessionList = [];
 
-Future<void> productcreateRequest(formdata) async {
+Future<bool> createRequest(formdata) async {
   try {
     CollectionReference collectionref = FirebaseFirestore.instance.collection(
       'informations',
     );
     await collectionref.add(formdata);
+    return true;
+    
   } catch (e) {
     showtoast('something went wrong');
     print('Firestore add error : $e');
+    return false;
   }
 }
 

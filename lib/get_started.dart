@@ -1,15 +1,16 @@
 import 'package:lottie/lottie.dart';
 import 'package:flutter/material.dart';
+import 'package:ist_blood_donors/main.dart';
 import 'package:ist_blood_donors/style.dart';
 
-class Loginpage extends StatefulWidget {
-  const Loginpage({super.key});
+class Getstarted extends StatefulWidget {
+  const Getstarted({super.key});
 
   @override
-  State<Loginpage> createState() => _LoginpageState();
+  State<Getstarted> createState() => _GetstartedState();
 }
 
-class _LoginpageState extends State<Loginpage> {
+class _GetstartedState extends State<Getstarted> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,61 +59,50 @@ class _LoginpageState extends State<Loginpage> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.03,
+                        ),
+                        SizedBox(
                           child: Lottie.asset(
                             'asset_project/Blood_Drop.json',
-                            height: 200,
-                            width: 200,
-                            fit: BoxFit.fill,
+                            height: MediaQuery.of(context).size.height * 0.3,
+                            width: MediaQuery.of(context).size.width * 0.7,
+                            fit: BoxFit.cover,
                             repeat: true,
                           ),
                         ),
-                        TextFormField(
-                          onChanged: (value) {},
-                          decoration: AppInputDecoration("Phone Number"),
+                        //Spacer(),
+                        Text(
+                          "IST Blood Donors",
+                          style: TextStyle(
+                            fontSize: 26,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                        SizedBox(height: 16),
-                        TextFormField(
-                          onChanged: (value) {},
-                          decoration: AppInputDecorationPass("Password"),
-                          obscureText: true,
-                          obscuringCharacter: '*',
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.2,
                         ),
-                        SizedBox(height: 24),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            ElevatedButton(
-                              onPressed: () {
-                                Navigator.pushReplacementNamed(
-                                  context,
-                                  'mainlistpage',
-                                );
-                              },
-                              style: ElevatedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                minimumSize: Size(150, 50),
-                              ),
-                              child: Text("Login"),
+
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.pushReplacementNamed(context, 'register');
+                          },
+                          style: ElevatedButton.styleFrom(
+                            elevation: 10,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(40),
                             ),
-                            SizedBox(width: 10),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text("Don't have an account?"),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pushReplacementNamed(
-                                  context,
-                                  'register',
-                                );
-                              },
-                              child: Text("Register"),
+                            minimumSize: Size(
+                              MediaQuery.of(context).size.height * 0.5,
+                              MediaQuery.of(context).size.width * 0.2,
                             ),
-                          ],
+                          ),
+                          child: Text(
+                            "Get Started",
+                            style: TextStyle(
+                              fontSize: 24,
+                              color: const Color.fromARGB(255, 0, 0, 0),
+                            ),
+                          ),
                         ),
                       ],
                     ),

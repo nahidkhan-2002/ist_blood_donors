@@ -20,8 +20,6 @@ class _RegisterpageState extends State<Registerpage> {
     'bloodGroup': '',
     'department': '',
     'session': '',
-    'password': '',
-    'confirmPassword': '',
   };
 
   void inputonchange(String key, String val) {
@@ -30,24 +28,31 @@ class _RegisterpageState extends State<Registerpage> {
     });
   }
 
-  validateAndSubmit() async {
+  Future<bool> validateAndSubmit() async {
+    bool ok = true;
     for (var key in formdata.keys) {
       if (formdata[key] == null || formdata[key]!.trim().isEmpty) {
         showtoast('Please fill in the fields');
+        ok = false;
+        break;
         // Return empty widget if validation fails
       }
     }
-    if (formdata['password'] != formdata['confirmPassword']) {
-      showtoast("password doesn't match");
-    } else {
+    if (ok) {
       setState(() {
         Loading = true;
       });
-      await productcreateRequest(formdata);
+
+      bool success = await createRequest(formdata);
+
       setState(() {
         Loading = false;
       });
+
+      return success;
     }
+
+    return false;
   }
 
   @override
@@ -125,64 +130,62 @@ class _RegisterpageState extends State<Registerpage> {
                                   inputonchange('session', value);
                                 },
                                 decoration: AppInputDecoration("Session"),
-                              ), //session
-                              SizedBox(height: 16),
-                              TextFormField(
-                                onChanged: (value) {
-                                  inputonchange('password', value);
-                                },
-                                decoration: AppInputDecorationPass("Password"),
-                                obscureText: true,
-                                obscuringCharacter: '*',
-                              ), //password
-                              SizedBox(height: 16),
-                              TextFormField(
-                                onChanged: (value) {
-                                  inputonchange('confirmPassword', value);
-                                },
-                                decoration: AppInputDecorationPass(
-                                  "Confirm Password",
-                                ),
-                                obscureText: true,
-                                obscuringCharacter: '*',
-                              ), // confirm password
+                              ), //session // confirm password
                               SizedBox(height: 20),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  ElevatedButton(
-                                    onPressed: () async {
-                                      await validateAndSubmit();
-                                      Navigator.pushReplacementNamed(
-                                        context,
-                                        'login',
-                                      );
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      minimumSize: Size(45, 45),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.zero,
-                                      ),
-                                    ),
-                                    child: Shimmer.fromColors(
-                                      baseColor: const Color.fromARGB(
-                                        255,
-                                        191,
-                                        22,
-                                        22,
-                                      ),
-                                      highlightColor: const Color.fromARGB(
-                                        255,
-                                        29,
-                                        31,
-                                        31,
-                                      ),
-                                      child: Text(
-                                        "Register",
-                                        style: TextStyle(fontSize: 16),
-                                      ),
-                                    ),
-                                  ),
+                                  Loading
+                                      ? (Center(
+                                        child: CircularProgressIndicator(),
+                                      ))
+                                      : (ElevatedButton(
+                                        onPressed: () async {
+                                          bool success =
+                                              await validateAndSubmit();
+                                          showtoast(
+                                            "Redirecting to Main Page...",
+                                          );
+                                          if (success) {
+                                            showtoast(
+                                              'Redirecting to Main Page',
+                                            );
+                                            Navigator.pushReplacementNamed(
+                                              context,
+                                              'secondsplashscreen',
+                                            );
+                                          }
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          minimumSize: Size(
+                                            MediaQuery.of(context).size.width *
+                                                0.85,
+                                            MediaQuery.of(context).size.height *
+                                                0.055,
+                                          ),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.zero,
+                                          ),
+                                        ),
+                                        child: Shimmer.fromColors(
+                                          baseColor: const Color.fromARGB(
+                                            255,
+                                            0,
+                                            0,
+                                            0,
+                                          ),
+                                          highlightColor: const Color.fromARGB(
+                                            163,
+                                            225,
+                                            70,
+                                            27,
+                                          ),
+                                          child: Text(
+                                            "Register",
+                                            style: TextStyle(fontSize: 18),
+                                          ),
+                                        ),
+                                      )),
                                   SizedBox(width: 10),
                                 ],
                               ),
