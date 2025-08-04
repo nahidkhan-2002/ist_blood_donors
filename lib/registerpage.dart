@@ -19,6 +19,7 @@ class _RegisterpageState extends State<Registerpage> {
   Map<String, String> formdata = {
     'name': '',
     'phone': '',
+    'email': '',
     'address': '',
     'bloodGroup': '',
     'department': '',
@@ -113,6 +114,13 @@ class _RegisterpageState extends State<Registerpage> {
                                   inputonchange('phone', value);
                                 },
                                 decoration: AppInputDecoration('Phone Number'),
+                              ),
+                              SizedBox(height: 16),
+                              TextFormField(
+                                onChanged: (value) {
+                                  inputonchange('email', value);
+                                },
+                                decoration: AppInputDecoration('Email'),
                               ),
                               SizedBox(height: 16),
                               TextFormField(

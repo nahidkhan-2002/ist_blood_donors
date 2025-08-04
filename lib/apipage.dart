@@ -15,7 +15,6 @@ Future<bool> createRequest(formdata) async {
     );
     await collectionref.add(formdata);
     return true;
-    
   } catch (e) {
     showtoast('something went wrong');
     print('Firestore add error : $e');
@@ -51,12 +50,14 @@ Future<void> fetchAllInformation() async {
     print("Firestore fetch error: $e");
   }
 }
+
 Future<bool> checkPhoneLogin(String phone) async {
   try {
-    final snapshot = await FirebaseFirestore.instance
-        .collection('informations')
-        .where('phone', isEqualTo: phone)
-        .get();
+    final snapshot =
+        await FirebaseFirestore.instance
+            .collection('informations')
+            .where('phone', isEqualTo: phone)
+            .get();
 
     if (snapshot.docs.isNotEmpty) {
       showtoast("Login successful ✅");

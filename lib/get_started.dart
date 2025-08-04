@@ -1,4 +1,3 @@
-import 'package:lottie/lottie.dart';
 import 'package:flutter/material.dart';
 import 'package:ist_blood_donors/style.dart';
 
@@ -17,28 +16,29 @@ class _GetStartedState extends State<GetStarted> {
     final isTall = screenSize.height > 800;
 
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: ShaderMask(
-          shaderCallback:
-              (bounds) => const LinearGradient(
-                colors: [
-                  Color.fromARGB(255, 206, 55, 55),
-                  Color.fromARGB(255, 32, 29, 28),
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ).createShader(bounds),
-          child: const Text(
-            "IST Blood Donors",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 24,
-              color: Colors.white, // Masked by shader
-            ),
-          ),
-        ),
-      ),
+      // appBar: AppBar(
+
+      //   centerTitle: true,
+      //   title: ShaderMask(
+      //     shaderCallback:
+      //         (bounds) => const LinearGradient(
+      //           colors: [
+      //             Color.fromARGB(255, 206, 55, 55),
+      //             Color.fromARGB(255, 32, 29, 28),
+      //           ],
+      //           begin: Alignment.topLeft,
+      //           end: Alignment.bottomRight,
+      //         ).createShader(bounds),
+      //     child: const Text(
+      //       "IST Blood Donors",
+      //       style: TextStyle(
+      //         fontWeight: FontWeight.bold,
+      //         fontSize: 24,
+      //         color: Colors.white, // Masked by shader
+      //       ),
+      //     ),
+      //   ),
+      // ),
       body: Stack(
         children: [
           ScreenBackground(context),
@@ -54,13 +54,7 @@ class _GetStartedState extends State<GetStarted> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     SizedBox(height: screenSize.height * 0.03),
-                    Lottie.asset(
-                      'asset_project/Blood_Drop.json',
-                      height: screenSize.height * 0.3,
-                      width: screenSize.width * 0.7,
-                      fit: BoxFit.cover,
-                      repeat: true,
-                    ),
+                    Image.asset('asset_project/IST.png', fit: BoxFit.fill),
                     const SizedBox(height: 20),
                     const Text(
                       "IST Blood Donors",
@@ -69,6 +63,11 @@ class _GetStartedState extends State<GetStarted> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
+                    const Text(
+                      "Give Blood . Save Lives",
+                      style: TextStyle(fontSize: 12),
+                    ),
+
                     SizedBox(height: screenSize.height * 0.2),
                     ElevatedButton(
                       onPressed:

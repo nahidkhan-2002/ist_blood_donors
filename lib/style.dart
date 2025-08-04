@@ -59,14 +59,20 @@ InputDecoration AppInputDecorationPass(label) {
   );
 }
 
-Image ScreenBackground(context) {
-  return Image.asset(
-    'asset_project/loginbg.png',
-    alignment: Alignment.center,
-    colorBlendMode: BlendMode.screen,
-    width: MediaQuery.of(context).size.width,
-    height: MediaQuery.of(context).size.height,
-    fit: BoxFit.cover,
+Container ScreenBackground(context) {
+  return Container(
+    decoration: const BoxDecoration(
+      gradient: RadialGradient(
+        center: Alignment.bottomLeft,
+        radius: 1.5,
+        colors: [
+          Color.fromARGB(255, 242, 76, 76), // Deep red
+          Color.fromARGB(120, 255, 200, 200), // Soft red blur
+          Color(0xFFFFFFFF), // White
+        ],
+        stops: [0.2, 0.6, 1.0],
+      ),
+    ),
   );
 }
 
@@ -80,13 +86,14 @@ SvgPicture ScreenBackgroundReg(context) {
   );
 }
 
-void showtoast(String message)
-{
-  Fluttertoast.showToast(msg: message,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      timeInSecForIosWeb: 1,
-      backgroundColor: Colors.black54,
-      textColor: Colors.white,
-      fontSize: 16.0);
+void showtoast(String message) {
+  Fluttertoast.showToast(
+    msg: message,
+    toastLength: Toast.LENGTH_SHORT,
+    gravity: ToastGravity.BOTTOM,
+    timeInSecForIosWeb: 1,
+    backgroundColor: Colors.black54,
+    textColor: Colors.white,
+    fontSize: 16.0,
+  );
 }
