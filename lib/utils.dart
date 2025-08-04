@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ist_blood_donors/style.dart';
 import 'package:ist_blood_donors/loginpage.dart';
+import 'package:ist_blood_donors/profilepage.dart';
 import 'package:page_transition/page_transition.dart';
 
 Widget buildDrawerList(BuildContext context) {
@@ -26,7 +27,7 @@ Widget buildDrawerList(BuildContext context) {
         title: const Text('Profile'),
         leading: Icon(Icons.person),
         onTap: () {
-          //Navigator.pushReplacementNamed(context, 'profile');
+          //profilepage
         },
       ),
       ListTile(
