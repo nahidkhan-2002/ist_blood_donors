@@ -7,6 +7,7 @@ List<String> phoneList = [];
 List<String> bloodGroupList = [];
 List<String> departmentList = [];
 List<String> sessionList = [];
+List<String> docIdList = [];
 
 Future<bool> createRequest(formdata) async {
   try {
@@ -28,6 +29,7 @@ Future<void> fetchAllInformation() async {
     final snapshot = await collection.get();
 
     // Clear previous data if re-fetching
+    docIdList.clear();
     nameList.clear();
     phoneList.clear();
     bloodGroupList.clear();
@@ -42,6 +44,7 @@ Future<void> fetchAllInformation() async {
       bloodGroupList.add(data['bloodGroup'] ?? '');
       departmentList.add(data['department'] ?? '');
       sessionList.add(data['session'] ?? '');
+      docIdList.add(doc.id);
     }
 
     showtoast("Data loaded successfully ✅");
@@ -77,7 +80,6 @@ Future<void> sendOTP({
   required String phoneNumber,
   required Function(String verificationId) onCodeSent,
   required Function(FirebaseAuthException error) onError,
-  
 }) async {
   await FirebaseAuth.instance.verifyPhoneNumber(
     phoneNumber: '+88$phoneNumber', // ⚠️ Include country code if needed

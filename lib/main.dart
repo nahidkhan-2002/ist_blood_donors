@@ -11,8 +11,6 @@ import 'package:ist_blood_donors/registerpage.dart';
 import 'package:ist_blood_donors/developerdetails.dart';
 import 'package:ist_blood_donors/SecondSplashScreen.dart';
 
-
-
 void main() async {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,10 +32,9 @@ class MyApp extends StatelessWidget {
         'register': (context) => Registerpage(),
         'login': (context) => Loginpage(),
         'mainlistpage': (context) => Mainlistpage(),
-        'profile': (context) => Profilepage(),
         'contact': (context) => Contactus(),
         'developer': (context) => Developerdetails(),
-        'secondsplashscreen' : (context) => Secondsplashscreen(),
+        'secondsplashscreen': (context) => Secondsplashscreen(),
       },
     );
   }

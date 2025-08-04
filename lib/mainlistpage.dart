@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:ist_blood_donors/utils.dart';
 import 'package:ist_blood_donors/apipage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:ist_blood_donors/profilepage.dart';
+import 'package:page_transition/page_transition.dart';
 
 class Mainlistpage extends StatefulWidget {
   const Mainlistpage({super.key});
@@ -10,11 +13,14 @@ class Mainlistpage extends StatefulWidget {
 }
 
 bool Loading = false;
+String? currentUserId;
 
 class _MainlistpageState extends State<Mainlistpage> {
   @override
   void initState() {
     super.initState();
+
+    getCurrentUserId();
     loadData(); // custom function call korbo ekhane
   }
 
@@ -26,6 +32,13 @@ class _MainlistpageState extends State<Mainlistpage> {
     setState(() {
       Loading = false;
     }); // 🧠 UI update
+  }
+
+  void getCurrentUserId() {
+    final user = FirebaseAuth.instance.currentUser;
+    setState(() {
+      currentUserId = user?.uid ?? 'unknown';
+    });
   }
 
   @override
@@ -86,6 +99,34 @@ class _MainlistpageState extends State<Mainlistpage> {
                                       alignment: Alignment.centerLeft,
                                       child: TextButton(
                                         onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            PageTransition(
+                                              type: PageTransitionType.fade,
+                                              child: ProfilePage(
+                                                donorData: {
+                                                  'name': nameList[index],
+                                                  'phone': phoneList[index],
+                                                  'bloodGroup':
+                                                      bloodGroupList[index],
+                                                  'department':
+                                                      departmentList[index],
+                                                  'session': sessionList[index],
+                                                  'uid':
+                                                      currentUserId ??
+                                                      'unknown_user',
+                                                },
+                                                docId:
+                                                    docIdList[index], // You'll need to collect this (below)
+                                                currentUserId:
+                                                    currentUserId ??
+                                                    'unknown_user',
+                                              ),
+                                              duration: const Duration(
+                                                milliseconds: 300,
+                                              ),
+                                            ),
+                                          );
                                           // Handle see details action
                                         },
                                         child: Text(
