@@ -42,19 +42,22 @@ class OTPVerificationState extends State<OTPVerification> {
       await FirebaseAuth.instance.signInWithCredential(credential);
 
       // Save user data after successful verification
-      await FirebaseFirestore.instance.collection('users').add(widget.formdata);
-
-      showtoast('Registration successful ✅');
-
+      await FirebaseFirestore.instance
+          .collection('informations')
+          .add(widget.formdata);
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (_) => Secondsplashscreen()),
       );
     } catch (e) {
       print("OTP Verification failed: $e");
-      showtoast('Invalid OTP or verification failed');
-    }
 
+      if (e is FirebaseAuthException) {
+        showtoast('Error: ${e.message}'); // More accurate
+      } else {
+        showtoast('Invalid OTP or verification failed');
+      }
+    }
     setState(() {
       isVerifying = false;
     });

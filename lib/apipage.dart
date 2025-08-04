@@ -77,6 +77,7 @@ Future<void> sendOTP({
   required String phoneNumber,
   required Function(String verificationId) onCodeSent,
   required Function(FirebaseAuthException error) onError,
+  
 }) async {
   await FirebaseAuth.instance.verifyPhoneNumber(
     phoneNumber: '+88$phoneNumber', // ⚠️ Include country code if needed

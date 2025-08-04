@@ -5,7 +5,6 @@ import 'package:ist_blood_donors/apipage.dart';
 import 'package:ist_blood_donors/registerpage.dart';
 import 'package:ist_blood_donors/mainlistpage.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:ist_blood_donors/SecondSplashScreen.dart';
 
 class Loginpage extends StatefulWidget {
   const Loginpage({super.key});
