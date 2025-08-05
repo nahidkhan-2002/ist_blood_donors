@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:ist_blood_donors/apipage.dart';
 import 'package:ist_blood_donors/loginpage.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:ist_blood_donors/otp_verification.dart';
 
 class Registerpage extends StatefulWidget {
@@ -81,19 +82,12 @@ class _RegisterpageState extends State<Registerpage> {
               return Transform.scale(
                 scale: 0.9,
                 child: Center(
-                  child: Container(
-                    height: 750,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(16),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius: 16,
-                          offset: Offset(0, 8),
-                        ),
-                      ],
-                    ),
+                  child: BlurryContainer.expand(
+                    blur: 15,
+                    elevation: 5,
+                    color: Colors.transparent,
+                    padding: const EdgeInsets.all(8),
+                    borderRadius: const BorderRadius.all(Radius.circular(20)),
                     child: Center(
                       child: SingleChildScrollView(
                         padding: EdgeInsets.all(20),
@@ -165,13 +159,13 @@ class _RegisterpageState extends State<Registerpage> {
                                         style: ElevatedButton.styleFrom(
                                           minimumSize: Size(
                                             MediaQuery.of(context).size.width *
-                                                0.85,
+                                                0.7,
                                             MediaQuery.of(context).size.height *
-                                                0.055,
+                                                0.08,
                                           ),
                                           shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.circular(
-                                              30,
+                                              10,
                                             ),
                                           ),
                                         ),

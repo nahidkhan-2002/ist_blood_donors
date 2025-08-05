@@ -76,13 +76,19 @@ Container ScreenBackground(context) {
   );
 }
 
-SvgPicture ScreenBackgroundReg(context) {
-  return SvgPicture.asset(
-    'asset_project/reg_bg.svg',
-    alignment: Alignment.center,
-    width: MediaQuery.of(context).size.width,
-    height: MediaQuery.of(context).size.height,
-    fit: BoxFit.cover,
+Container ScreenBackgroundReg(context) {
+  return Container(
+    decoration: BoxDecoration(
+      gradient: LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [
+          Color.fromARGB(255, 255, 132, 71), // গাঢ় নীল
+          Color(0xFF2C5364), // গাঢ় পার্পল/ম্যাজেন্টা
+        ],
+        stops: [0.5, 0.9],
+      ),
+    ),
   );
 }
 

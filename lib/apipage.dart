@@ -75,6 +75,27 @@ Future<bool> checkPhoneLogin(String phone) async {
     return false;
   }
 }
+Future<bool> canEdit(String phone) async {
+  try {
+    final snapshot =
+        await FirebaseFirestore.instance
+            .collection('informations')
+            .where('phone', isEqualTo: phone)
+            .get();
+
+    if (snapshot.docs.isNotEmpty) {
+      showtoast("Login successful ✅");
+      return true;
+    } else {
+      showtoast("Wrong phone number ❌");
+      return false;
+    }
+  } catch (e) {
+    showtoast("Something went wrong during login");
+    print("Login error: $e");
+    return false;
+  }
+}
 
 Future<void> sendOTP({
   required String phoneNumber,
