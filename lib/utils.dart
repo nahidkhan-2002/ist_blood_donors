@@ -3,6 +3,9 @@ import 'package:ist_blood_donors/style.dart';
 import 'package:ist_blood_donors/loginpage.dart';
 import 'package:page_transition/page_transition.dart';
 
+// Global variable to store current user's phone number
+String currentUserPhone = '';
+
 Widget buildDrawerList(BuildContext context) {
   SnackBar snackBar = SnackBar(
     content: Text('You have been logged out'),
@@ -47,7 +50,7 @@ Widget buildDrawerList(BuildContext context) {
         title: const Text('About Developer'),
         leading: Icon(Icons.settings),
         onTap: () {
-          //Navigator.pushReplacementNamed(context, 'developer');
+          Navigator.pushReplacementNamed(context, 'developer');
         },
       ),
       SizedBox(height: MediaQuery.of(context).size.height * 0.5),
@@ -55,6 +58,8 @@ Widget buildDrawerList(BuildContext context) {
         title: const Text('Quit'),
         leading: Icon(Icons.logout),
         onTap: () {
+          // Clear current user session
+          currentUserPhone = '';
           showtoast("Thank You");
           Navigator.pushReplacement(
             context,

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:ist_blood_donors/utils.dart';
 import 'package:ist_blood_donors/apipage.dart';
+import 'package:ist_blood_donors/donor_details_page.dart';
+import 'package:ist_blood_donors/registerpage.dart';
+import 'package:page_transition/page_transition.dart';
 
 class Mainlistpage extends StatefulWidget {
   const Mainlistpage({super.key});
@@ -12,20 +15,86 @@ class Mainlistpage extends StatefulWidget {
 bool Loading = false;
 
 class _MainlistpageState extends State<Mainlistpage> {
+  TextEditingController _searchController = TextEditingController();
+  String _selectedBloodGroup = 'All';
+  List<String> _filteredNames = [];
+  List<String> _filteredPhones = [];
+  List<String> _filteredBloodGroups = [];
+  List<String> _filteredDepartments = [];
+  List<String> _filteredSessions = [];
+
+  final List<String> _bloodGroupOptions = [
+    'All',
+    'A+',
+    'A-',
+    'B+',
+    'B-',
+    'AB+',
+    'AB-',
+    'O+',
+    'O-',
+  ];
+
   @override
   void initState() {
     super.initState();
-    loadData(); // custom function call korbo ekhane
+    loadData();
+    _searchController.addListener(_filterData);
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 
   void loadData() async {
     setState(() {
-      Loading = true; // 🌀 Show loading spinner
+      Loading = true;
     });
     await fetchAllInformation(); // 🔁 fetch firestore data
+    _filterData(); // Apply initial filtering
     setState(() {
       Loading = false;
     }); // 🧠 UI update
+  }
+
+  void _filterData() {
+    String searchQuery = _searchController.text.toLowerCase();
+
+    _filteredNames = [];
+    _filteredPhones = [];
+    _filteredBloodGroups = [];
+    _filteredDepartments = [];
+    _filteredSessions = [];
+
+    for (int i = 0; i < nameList.length; i++) {
+      bool matchesSearch =
+          nameList[i].toLowerCase().contains(searchQuery) ||
+          phoneList[i].contains(searchQuery);
+
+      bool matchesBloodGroup =
+          _selectedBloodGroup == 'All' ||
+          bloodGroupList[i] == _selectedBloodGroup;
+
+      if (matchesSearch && matchesBloodGroup) {
+        _filteredNames.add(nameList[i]);
+        _filteredPhones.add(phoneList[i]);
+        _filteredBloodGroups.add(bloodGroupList[i]);
+        _filteredDepartments.add(departmentList[i]);
+        _filteredSessions.add(sessionList[i]);
+      }
+    }
+    setState(() {});
+  }
+
+  void _onBloodGroupChanged(String? newValue) {
+    if (newValue != null) {
+      setState(() {
+        _selectedBloodGroup = newValue;
+      });
+      _filterData();
+    }
   }
 
   @override
@@ -39,79 +108,323 @@ class _MainlistpageState extends State<Mainlistpage> {
       drawer: Drawer(child: buildDrawerList(context)),
       body:
           Loading
-              ? Center(child: (CircularProgressIndicator()))
-              : (LayoutBuilder(
-                builder: (context, constraints) {
-                  return ListView.builder(
-                    physics: BouncingScrollPhysics(
-                      parent: AlwaysScrollableScrollPhysics(),
-                    ),
+              ? Center(child: CircularProgressIndicator())
+              : Column(
+                children: [
+                  // Search and Filter Section
+                  Container(
                     padding: EdgeInsets.all(16),
-                    itemCount: nameList.length,
-                    itemBuilder: (context, index) {
-                      // Dummy data for demonstration
-                      return Card(
-                        shadowColor: const Color.fromARGB(121, 227, 125, 125),
-                        elevation: 2,
-                        margin: EdgeInsets.only(bottom: 16),
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      nameList[index],
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    Text(
-                                      'Blood Group: ${bloodGroupList[index]}',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    SizedBox(height: 4),
-                                    Text(
-                                      'Number: ${phoneList[index]}',
-                                      style: TextStyle(fontSize: 14),
-                                    ),
-                                    SizedBox(height: 8),
-                                    Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: TextButton(
-                                        onPressed: () {
-                                          // Handle see details action
-                                        },
-                                        child: Text(
-                                          'See Details',
-                                          style: TextStyle(
-                                            color: const Color.fromARGB(
-                                              255,
-                                              240,
-                                              31,
-                                              31,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
+                    child: Column(
+                      children: [
+                        // Search Bar
+                        TextField(
+                          controller: _searchController,
+                          decoration: InputDecoration(
+                            hintText: 'Search by name or phone number...',
+                            prefixIcon: Icon(Icons.search),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            filled: true,
+                            fillColor: Colors.grey[100],
                           ),
                         ),
-                      );
-                    },
-                  );
-                },
-              )),
+                        SizedBox(height: 16),
+                        // Blood Group Filter
+                        Row(
+                          children: [
+                            Text(
+                              'Filter by Blood Group:',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(width: 16),
+                            Expanded(
+                              child: DropdownButtonFormField<String>(
+                                value: _selectedBloodGroup,
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  contentPadding: EdgeInsets.symmetric(
+                                    horizontal: 12,
+                                    vertical: 8,
+                                  ),
+                                ),
+                                items:
+                                    _bloodGroupOptions.map((String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(value),
+                                      );
+                                    }).toList(),
+                                onChanged: _onBloodGroupChanged,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 8),
+                        // Results count
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            '${_filteredNames.length} donor(s) found',
+                            style: TextStyle(
+                              color: Colors.grey[600],
+                              fontSize: 14,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  // List View
+                  Expanded(
+                    child:
+                        _filteredNames.isEmpty
+                            ? Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.search_off,
+                                    size: 64,
+                                    color: Colors.grey[400],
+                                  ),
+                                  SizedBox(height: 16),
+                                  Text(
+                                    'No donors found',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.grey[600],
+                                    ),
+                                  ),
+                                  Text(
+                                    'Try adjusting your search or filter',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.grey[500],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                            : ListView.builder(
+                              physics: BouncingScrollPhysics(
+                                parent: AlwaysScrollableScrollPhysics(),
+                              ),
+                              padding: EdgeInsets.symmetric(horizontal: 16),
+                              itemCount: _filteredNames.length,
+                              itemBuilder: (context, index) {
+                                return Card(
+                                  shadowColor: const Color.fromARGB(
+                                    121,
+                                    227,
+                                    125,
+                                    125,
+                                  ),
+                                  elevation: 2,
+                                  margin: EdgeInsets.only(bottom: 16),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      border:
+                                          currentUserPhone ==
+                                                  _filteredPhones[index]
+                                              ? Border.all(
+                                                color: const Color.fromARGB(
+                                                  255,
+                                                  206,
+                                                  55,
+                                                  55,
+                                                ),
+                                                width: 2,
+                                              )
+                                              : null,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(16.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Expanded(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      _filteredNames[index],
+                                                      style: TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      'Blood Group: ${_filteredBloodGroups[index]}',
+                                                      style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                    SizedBox(height: 4),
+                                                    Text(
+                                                      'Number: ${_filteredPhones[index]}',
+                                                      style: TextStyle(
+                                                        fontSize: 14,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              // Current user indicator
+                                              if (currentUserPhone ==
+                                                  _filteredPhones[index])
+                                                Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                    horizontal: 8,
+                                                    vertical: 4,
+                                                  ),
+                                                  decoration: BoxDecoration(
+                                                    color: const Color.fromARGB(
+                                                      255,
+                                                      206,
+                                                      55,
+                                                      55,
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                          12,
+                                                        ),
+                                                  ),
+                                                  child: Text(
+                                                    'You',
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ),
+                                            ],
+                                          ),
+                                          SizedBox(height: 12),
+                                          Row(
+                                            children: [
+                                              TextButton(
+                                                onPressed: () {
+                                                  // Navigate to donor details page
+                                                  Navigator.push(
+                                                    context,
+                                                    PageTransition(
+                                                      type:
+                                                          PageTransitionType
+                                                              .rightToLeftWithFade,
+                                                      child: DonorDetailsPage(
+                                                        name:
+                                                            _filteredNames[index],
+                                                        phone:
+                                                            _filteredPhones[index],
+                                                        bloodGroup:
+                                                            _filteredBloodGroups[index],
+                                                        department:
+                                                            _filteredDepartments[index],
+                                                        session:
+                                                            _filteredSessions[index],
+                                                      ),
+                                                      duration: Duration(
+                                                        milliseconds: 400,
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                                child: Text(
+                                                  'See Details',
+                                                  style: TextStyle(
+                                                    color: const Color.fromARGB(
+                                                      255,
+                                                      240,
+                                                      31,
+                                                      31,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              // Update Profile button for current user
+                                              if (currentUserPhone ==
+                                                  _filteredPhones[index]) ...[
+                                                SizedBox(width: 8),
+                                                ElevatedButton(
+                                                  onPressed: () {
+                                                    // Navigate to register page for profile update
+                                                    Navigator.push(
+                                                      context,
+                                                      PageTransition(
+                                                        type:
+                                                            PageTransitionType
+                                                                .rightToLeftWithFade,
+                                                        child: Registerpage(),
+                                                        duration: Duration(
+                                                          milliseconds: 400,
+                                                        ),
+                                                      ),
+                                                    );
+                                                  },
+                                                  style: ElevatedButton.styleFrom(
+                                                    backgroundColor:
+                                                        const Color.fromARGB(
+                                                          255,
+                                                          206,
+                                                          55,
+                                                          55,
+                                                        ),
+                                                    foregroundColor:
+                                                        Colors.white,
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                          horizontal: 16,
+                                                          vertical: 8,
+                                                        ),
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                            8,
+                                                          ),
+                                                    ),
+                                                  ),
+                                                  child: Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      Icon(
+                                                        Icons.edit,
+                                                        size: 16,
+                                                      ),
+                                                      SizedBox(width: 4),
+                                                      Text('Update'),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                  ),
+                ],
+              ),
     );
   }
 }
