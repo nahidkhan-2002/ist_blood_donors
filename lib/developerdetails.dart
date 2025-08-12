@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ist_blood_donors/style.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:ist_blood_donors/mainlistpage.dart';
 
@@ -179,10 +178,11 @@ class _DeveloperdetailsState extends State<Developerdetails>
                                       ),
                                     ),
                                     child: Center(
-                                      child: Icon(
-                                        Icons.person,
-                                        size: 60,
-                                        color: Colors.white,
+                                      child: Image.asset(
+                                        'asset_project/nahid.jpg',
+                                        width: 120,
+                                        height: 120,
+                                        fit: BoxFit.cover,
                                       ),
                                     ),
                                   ),

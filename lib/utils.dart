@@ -7,11 +7,6 @@ import 'package:page_transition/page_transition.dart';
 String currentUserPhone = '';
 
 Widget buildDrawerList(BuildContext context) {
-  SnackBar snackBar = SnackBar(
-    content: Text('You have been logged out'),
-    backgroundColor: colorGreen,
-    duration: Duration(seconds: 2),
-  );
   return ListView(
     padding: EdgeInsets.zero,
     children: [
