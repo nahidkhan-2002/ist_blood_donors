@@ -41,7 +41,6 @@ Widget buildDrawerList(BuildContext context) {
           Navigator.pushReplacementNamed(context, 'developer');
         },
       ),
-      Spacer(),
       ListTile(
         title: const Text('Quit'),
         leading: Icon(Icons.logout),
