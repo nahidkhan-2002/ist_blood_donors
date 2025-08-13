@@ -1,29 +1,43 @@
+import 'main_navigation.dart';
 import 'package:lottie/lottie.dart';
 import 'package:flutter/material.dart';
-import 'mainlistpage.dart';
-import 'package:animated_splash_screen/animated_splash_screen.dart';
 
-class Secondsplashscreen extends StatelessWidget {
+class Secondsplashscreen extends StatefulWidget {
   const Secondsplashscreen({super.key});
 
   @override
+  State<Secondsplashscreen> createState() => _SecondsplashscreenState();
+}
+
+class _SecondsplashscreenState extends State<Secondsplashscreen> {
+  @override
+  void initState() {
+    super.initState();
+    _navigateToMain();
+  }
+
+  void _navigateToMain() async {
+    await Future.delayed(const Duration(seconds: 3));
+    if (mounted) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const MainNavigation()),
+      );
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Center(
-      child: AnimatedSplashScreen(
-        splashIconSize: 300,
-        duration: 6000,
-        splash: Transform.scale(
-          scale: 1.5,
-          child: LottieBuilder.asset(
-            'lottie/Loading_Animation.json',
-            repeat: true,
-            frameRate: FrameRate.max,
-            fit: BoxFit.cover,
-            height: double.infinity,
-            width: double.infinity,
-          ),
+    return Scaffold(
+      body: Center(
+        child: LottieBuilder.asset(
+          'lottie/Loading_Animation.json',
+          repeat: true,
+          frameRate: FrameRate.max,
+          fit: BoxFit.contain,
+          height: MediaQuery.of(context).size.height * 0.6,
+          width: MediaQuery.of(context).size.width * 0.8,
         ),
-        nextScreen: Mainlistpage(),
       ),
     );
   }

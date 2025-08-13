@@ -43,8 +43,6 @@ Future<void> fetchAllInformation() async {
       departmentList.add(data['department'] ?? '');
       sessionList.add(data['session'] ?? '');
     }
-
-    showtoast("Data loaded successfully ✅");
   } catch (e) {
     showtoast('Something went wrong while fetching data');
     print("Firestore fetch error: $e");

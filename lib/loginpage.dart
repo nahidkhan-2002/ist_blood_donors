@@ -39,6 +39,16 @@ class _LoginpageState extends State<Loginpage> {
       if (success) {
         // Store the current user's phone number
         currentUserPhone = phone;
+
+        // Fetch complete user information
+        final userData = await fetchUserByPhone(phone);
+        if (userData != null) {
+          currentUserName = userData['name'] ?? '';
+          currentUserBloodGroup = userData['bloodGroup'] ?? '';
+          currentUserDepartment = userData['department'] ?? '';
+          currentUserSession = userData['session'] ?? '';
+        }
+
         Navigator.push(
           // ignore: use_build_context_synchronously
           context,

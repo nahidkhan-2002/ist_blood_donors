@@ -48,6 +48,8 @@ dependencies:
   firebase_auth: ^6.0.0
   email_otp: ^3.0.2
   icons_launcher: ^3.0.1
+  provider: ^6.1.2
+  blurrycontainer: 2.1.0
 
 
 dev_dependencies:

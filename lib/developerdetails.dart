@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'mainlistpage.dart';
-import 'package:page_transition/page_transition.dart';
 
 class Developerdetails extends StatefulWidget {
   const Developerdetails({super.key});
@@ -75,14 +73,7 @@ class _DeveloperdetailsState extends State<Developerdetails>
                   children: [
                     IconButton(
                       onPressed: () {
-                        Navigator.pushReplacement(
-                          context,
-                          PageTransition(
-                            type: PageTransitionType.leftToRightWithFade,
-                            child: Mainlistpage(),
-                            duration: Duration(milliseconds: 400),
-                          ),
-                        );
+                        Navigator.pop(context);
                       },
                       icon: Icon(
                         Icons.arrow_back_ios,

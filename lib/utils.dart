@@ -1,10 +1,12 @@
 import 'style.dart';
-import 'loginpage.dart';
 import 'package:flutter/material.dart';
-import 'package:page_transition/page_transition.dart';
 
-// Global variable to store current user's phone number
+// Global variables to store current user's information
 String currentUserPhone = '';
+String currentUserName = '';
+String currentUserBloodGroup = '';
+String currentUserDepartment = '';
+String currentUserSession = '';
 
 Widget buildDrawerList(BuildContext context) {
   return ListView(
@@ -24,7 +26,7 @@ Widget buildDrawerList(BuildContext context) {
         title: const Text('See Donors List'),
         leading: Icon(Icons.list),
         onTap: () {
-          Navigator.pushReplacementNamed(context, 'mainlistpage');
+          Navigator.pushReplacementNamed(context, 'mainnavigation');
         },
       ),
       ListTile(
@@ -36,26 +38,27 @@ Widget buildDrawerList(BuildContext context) {
       ),
       ListTile(
         title: const Text('About Developer'),
-        leading: Icon(Icons.settings),
+        subtitle: const Text('Go to Settings → Developer'),
+        leading: Icon(Icons.developer_mode),
         onTap: () {
-          Navigator.pushReplacementNamed(context, 'developer');
+          Navigator.pushReplacementNamed(context, 'mainnavigation');
+          // Navigate to main navigation, user can then go to Settings tab
+          // and access Developer Details from there
         },
       ),
       ListTile(
         title: const Text('Quit'),
+        subtitle: const Text('Logout from the app'),
         leading: Icon(Icons.logout),
         onTap: () {
           // Clear current user session
           currentUserPhone = '';
+          currentUserName = '';
+          currentUserBloodGroup = '';
+          currentUserDepartment = '';
+          currentUserSession = '';
           showtoast("Thank You");
-          Navigator.pushReplacement(
-            context,
-            PageTransition(
-              type: PageTransitionType.leftToRightWithFade,
-              child: Loginpage(),
-              duration: Duration(milliseconds: 400),
-            ),
-          );
+          Navigator.pushReplacementNamed(context, 'login');
         },
       ),
     ],
