@@ -1,4 +1,4 @@
-# �� **IST Blood Donors App - Release Notes**
+# **IST Blood Donors App - Release Notes**
 
 ## **Version 1.0.1** - *Enhanced Navigation & User Experience*
 
@@ -42,7 +42,7 @@
 
 ---
 
-## �� **Bug Fixes**
+## **Bug Fixes**
 
 ### 🧭 **Navigation Issues**
 - Fixed missing back button when navigating to Developer Details
@@ -50,7 +50,7 @@
 - Improved profile page data loading and refresh functionality
 - Fixed profile page display of actual logged-in user data
 
-### �� **UI/UX Issues**
+### **UI/UX Issues**
 - Resolved logo centering in second splash screen
 - Fixed theme switching inconsistencies
 - Improved language switching reliability
@@ -76,7 +76,7 @@
 
 ## 🔮 **What's Coming Next**
 
-### �� **Planned Features**
+### **Planned Features**
 - Enhanced profile editing capabilities
 - Advanced search and filtering options
 - Push notification system
