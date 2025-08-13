@@ -1,13 +1,16 @@
 import 'style.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:flutter/material.dart';
-import 'package:ist_blood_donors/apipage.dart';
-import 'package:ist_blood_donors/loginpage.dart';
+import 'apipage.dart';
+import 'loginpage.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:ist_blood_donors/otp_verification.dart';
+import 'otp_verification.dart';
 
 class Registerpage extends StatefulWidget {
-  const Registerpage({super.key});
+  final bool isUpdateMode;
+  final Map<String, String>? existingData;
+
+  const Registerpage({super.key, this.isUpdateMode = false, this.existingData});
 
   @override
   State<Registerpage> createState() => _RegisterpageState();
@@ -25,6 +28,14 @@ class _RegisterpageState extends State<Registerpage> {
     'department': '',
     'session': '',
   };
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.isUpdateMode && widget.existingData != null) {
+      formdata = Map<String, String>.from(widget.existingData!);
+    }
+  }
 
   void inputonchange(String key, String val) {
     setState(() {
@@ -45,34 +56,53 @@ class _RegisterpageState extends State<Registerpage> {
     if (ok) {
       setState(() => Loading = true);
 
-      await sendOTP(
-        phoneNumber: formdata['phone']!,
-        onCodeSent: (verificationId) {
-          setState(() => Loading = false);
-          print("Sending OTP");
-          Navigator.push(
-            context,
-            PageTransition(
-              type: PageTransitionType.fade,
-              child: OTPVerification(
-                verificationId: verificationId,
-                formdata: formdata,
+      if (widget.isUpdateMode) {
+        // Update existing user
+        bool success = await updateUserInformation(
+          formdata['phone']!,
+          formdata,
+        );
+        setState(() => Loading = false);
+        if (success) {
+          Navigator.pop(context); // Go back to previous page
+        }
+      } else {
+        // Register new user
+        await sendOTP(
+          phoneNumber: formdata['phone']!,
+          onCodeSent: (verificationId) {
+            setState(() => Loading = false);
+            print("Sending OTP");
+            Navigator.push(
+              context,
+              PageTransition(
+                type: PageTransitionType.fade,
+                child: OTPVerification(
+                  verificationId: verificationId,
+                  formdata: formdata,
+                ),
+                duration: const Duration(milliseconds: 300),
               ),
-              duration: const Duration(milliseconds: 300),
-            ),
-          );
-        },
-        onError: (error) {
-          setState(() => Loading = false);
-          showtoast('OTP sending failed: ${error.message}');
-        },
-      );
+            );
+          },
+          onError: (error) {
+            setState(() => Loading = false);
+            showtoast('OTP sending failed: ${error.message}');
+          },
+        );
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.isUpdateMode ? "Update Profile" : "Register"),
+        centerTitle: true,
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+      ),
       body: Stack(
         children: [
           ScreenBackgroundReg(context),
@@ -113,7 +143,14 @@ class _RegisterpageState extends State<Registerpage> {
                                 onChanged: (value) {
                                   inputonchange('phone', value);
                                 },
-                                decoration: AppInputDecoration('Phone Number'),
+                                enabled:
+                                    !widget
+                                        .isUpdateMode, // Disable editing in update mode
+                                decoration: AppInputDecoration(
+                                  widget.isUpdateMode
+                                      ? 'Phone Number (Read-only)'
+                                      : 'Phone Number',
+                                ),
                               ),
                               SizedBox(height: 16),
                               TextFormField(
@@ -189,7 +226,9 @@ class _RegisterpageState extends State<Registerpage> {
                                             27,
                                           ),
                                           child: Text(
-                                            "Register",
+                                            widget.isUpdateMode
+                                                ? "Update"
+                                                : "Register",
                                             style: TextStyle(fontSize: 18),
                                           ),
                                         ),

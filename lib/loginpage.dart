@@ -1,11 +1,12 @@
 import 'package:lottie/lottie.dart';
 import 'package:flutter/material.dart';
-import 'package:ist_blood_donors/style.dart';
-import 'package:ist_blood_donors/apipage.dart';
-import 'package:ist_blood_donors/registerpage.dart';
-import 'package:ist_blood_donors/mainlistpage.dart';
-import 'package:ist_blood_donors/utils.dart';
+import 'style.dart';
+import 'utils.dart';
+import 'apipage.dart';
+import 'registerpage.dart';
+import 'mainlistpage.dart';
 import 'package:page_transition/page_transition.dart';
+import 'SecondSplashScreen.dart';
 
 class Loginpage extends StatefulWidget {
   const Loginpage({super.key});
@@ -39,10 +40,11 @@ class _LoginpageState extends State<Loginpage> {
         // Store the current user's phone number
         currentUserPhone = phone;
         Navigator.push(
+          // ignore: use_build_context_synchronously
           context,
           PageTransition(
             type: PageTransitionType.rightToLeftWithFade,
-            child: const Mainlistpage(),
+            child: const Secondsplashscreen(),
             duration: const Duration(milliseconds: 400),
           ),
         );

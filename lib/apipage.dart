@@ -1,4 +1,4 @@
-import 'package:ist_blood_donors/style.dart';
+import 'style.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -94,4 +94,56 @@ Future<void> sendOTP({
       // optional
     },
   );
+}
+
+Future<bool> updateUserInformation(
+  String phone,
+  Map<String, String> formdata,
+) async {
+  try {
+    final collection = FirebaseFirestore.instance.collection('informations');
+    final querySnapshot =
+        await collection.where('phone', isEqualTo: phone).get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      final docId = querySnapshot.docs.first.id;
+      await collection.doc(docId).update(formdata);
+      showtoast('Profile updated successfully ✅');
+      return true;
+    } else {
+      showtoast('User not found');
+      return false;
+    }
+  } catch (e) {
+    showtoast('Failed to update profile');
+    print('Firestore update error: $e');
+    return false;
+  }
+}
+
+Future<Map<String, String>?> fetchUserByPhone(String phone) async {
+  try {
+    final snapshot =
+        await FirebaseFirestore.instance
+            .collection('informations')
+            .where('phone', isEqualTo: phone)
+            .get();
+
+    if (snapshot.docs.isNotEmpty) {
+      final data = snapshot.docs.first.data();
+      return {
+        'name': data['name'] ?? '',
+        'phone': data['phone'] ?? '',
+        'email': data['email'] ?? '',
+        'address': data['address'] ?? '',
+        'bloodGroup': data['bloodGroup'] ?? '',
+        'department': data['department'] ?? '',
+        'session': data['session'] ?? '',
+      };
+    }
+    return null;
+  } catch (e) {
+    print('Error fetching user data: $e');
+    return null;
+  }
 }

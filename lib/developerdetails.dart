@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'mainlistpage.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:ist_blood_donors/mainlistpage.dart';
 
 class Developerdetails extends StatefulWidget {
   const Developerdetails({super.key});
@@ -344,7 +344,7 @@ class _DeveloperdetailsState extends State<Developerdetails>
                       // Contact Button
                       FadeTransition(
                         opacity: _fadeAnimation,
-                        child: Container(
+                        child: SizedBox(
                           width: double.infinity,
                           child: ElevatedButton.icon(
                             onPressed: () {

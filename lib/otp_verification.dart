@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:ist_blood_donors/style.dart';
+import 'style.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import 'package:ist_blood_donors/SecondSplashScreen.dart';
+import 'SecondSplashScreen.dart';
 
 class OTPVerification extends StatefulWidget {
   final String verificationId;

@@ -1,17 +1,15 @@
+import 'contactus.dart';
+import 'loginpage.dart';
 import 'profilepage.dart';
 import 'mainlistpage.dart';
+import 'registerpage.dart';
 import 'mainsplashScreen.dart';
 import 'firebase_options.dart';
+import 'developerdetails.dart';
+import 'SecondSplashScreen.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
-import 'package:ist_blood_donors/contactus.dart';
-import 'package:ist_blood_donors/loginpage.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:ist_blood_donors/registerpage.dart';
-import 'package:ist_blood_donors/developerdetails.dart';
-import 'package:ist_blood_donors/SecondSplashScreen.dart';
-
-
 
 void main() async {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
@@ -37,7 +35,7 @@ class MyApp extends StatelessWidget {
         'profile': (context) => Profilepage(),
         'contact': (context) => Contactus(),
         'developer': (context) => Developerdetails(),
-        'secondsplashscreen' : (context) => Secondsplashscreen(),
+        'secondsplashscreen': (context) => Secondsplashscreen(),
       },
     );
   }

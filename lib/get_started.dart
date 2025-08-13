@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ist_blood_donors/style.dart';
+import 'style.dart';
 
 class GetStarted extends StatefulWidget {
   const GetStarted({super.key});

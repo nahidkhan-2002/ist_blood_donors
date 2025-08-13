@@ -1,6 +1,6 @@
+import 'style.dart';
+import 'loginpage.dart';
 import 'package:flutter/material.dart';
-import 'package:ist_blood_donors/style.dart';
-import 'package:ist_blood_donors/loginpage.dart';
 import 'package:page_transition/page_transition.dart';
 
 // Global variable to store current user's phone number
@@ -19,13 +19,6 @@ Widget buildDrawerList(BuildContext context) {
           ),
         ),
         child: SizedBox(),
-      ),
-      ListTile(
-        title: const Text('Profile'),
-        leading: Icon(Icons.person),
-        onTap: () {
-          //Navigator.pushReplacementNamed(context, 'profile');
-        },
       ),
       ListTile(
         title: const Text('See Donors List'),
@@ -48,7 +41,7 @@ Widget buildDrawerList(BuildContext context) {
           Navigator.pushReplacementNamed(context, 'developer');
         },
       ),
-      SizedBox(height: MediaQuery.of(context).size.height * 0.5),
+      Spacer(),
       ListTile(
         title: const Text('Quit'),
         leading: Icon(Icons.logout),

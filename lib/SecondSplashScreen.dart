@@ -1,6 +1,6 @@
 import 'package:lottie/lottie.dart';
 import 'package:flutter/material.dart';
-import 'package:ist_blood_donors/mainlistpage.dart';
+import 'mainlistpage.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 
 class Secondsplashscreen extends StatelessWidget {
@@ -10,7 +10,7 @@ class Secondsplashscreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: AnimatedSplashScreen(
-        splashIconSize: 400,
+        splashIconSize: 300,
         duration: 6000,
         splash: Transform.scale(
           scale: 1.5,

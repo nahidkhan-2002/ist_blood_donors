@@ -1,6 +1,7 @@
+import 'utils.dart';
+import 'registerpage.dart';
 import 'package:flutter/material.dart';
-import 'package:ist_blood_donors/utils.dart';
-import 'package:ist_blood_donors/registerpage.dart';
+import 'package:flutter/services.dart';
 import 'package:page_transition/page_transition.dart';
 
 class DonorDetailsPage extends StatelessWidget {
@@ -100,18 +101,21 @@ class DonorDetailsPage extends StatelessWidget {
 
             // Information Cards
             _buildInfoCard(
+              context: context,
               icon: Icons.phone,
               title: 'Phone Number',
               value: phone,
               color: Colors.blue,
             ),
             _buildInfoCard(
+              context: context,
               icon: Icons.school,
               title: 'Department',
               value: department,
               color: Colors.green,
             ),
             _buildInfoCard(
+              context: context,
               icon: Icons.grade,
               title: 'Session',
               value: session,
@@ -122,7 +126,7 @@ class DonorDetailsPage extends StatelessWidget {
 
             // Update Profile Button (only for current user)
             if (isCurrentUser)
-              Container(
+              SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
@@ -264,6 +268,7 @@ class DonorDetailsPage extends StatelessWidget {
   }
 
   Widget _buildInfoCard({
+    required BuildContext context,
     required IconData icon,
     required String title,
     required String value,
@@ -298,13 +303,57 @@ class DonorDetailsPage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 4),
-                  Text(
-                    value,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black87,
-                    ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          value,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black87,
+                          ),
+                        ),
+                      ),
+                      // Add copy button only for phone number
+                      if (title == 'Phone Number')
+                        Column(
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                Clipboard.setData(ClipboardData(text: value));
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      'Phone number copied to clipboard',
+                                    ),
+                                    backgroundColor: Colors.green,
+                                    duration: Duration(seconds: 2),
+                                  ),
+                                );
+                              },
+                              icon: Icon(
+                                Icons.copy,
+                                color: Colors.blue,
+                                size: 20,
+                              ),
+                              tooltip: 'Copy phone number',
+                              padding: EdgeInsets.zero,
+                              constraints: BoxConstraints(
+                                minWidth: 32,
+                                minHeight: 32,
+                              ),
+                            ),
+                            Text(
+                              'Tap to copy',
+                              style: TextStyle(
+                                fontSize: 10,
+                                color: Colors.grey[500],
+                              ),
+                            ),
+                          ],
+                        ),
+                    ],
                   ),
                 ],
               ),

@@ -1,5 +1,5 @@
-name: ist_blood_donors
-description: "A new Flutter project."
+name: IST_Blood_Donors
+description: "this a app dedicated to IST blood donors.where anyone can find the blood donors contact in emergency situation"
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -47,6 +47,7 @@ dependencies:
   pin_code_fields: ^8.0.1
   firebase_auth: ^6.0.0
   email_otp: ^3.0.2
+  flutter_launcher_icons: ^0.14.4
 
 
 dev_dependencies:
@@ -70,6 +71,11 @@ flutter:
     - asset_project/
     - lottie/
 
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "asset_project/IST_LAUNCHER_LOGO.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
 
