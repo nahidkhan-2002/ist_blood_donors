@@ -1,10 +1,11 @@
 import 'style.dart';
-import 'package:shimmer/shimmer.dart';
-import 'package:flutter/material.dart';
+import 'utils.dart';
 import 'apipage.dart';
 import 'loginpage.dart';
-import 'package:page_transition/page_transition.dart';
 import 'otp_verification.dart';
+import 'package:shimmer/shimmer.dart';
+import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 
 class Registerpage extends StatefulWidget {
   final bool isUpdateMode;
@@ -50,6 +51,50 @@ class _RegisterpageState extends State<Registerpage> {
         showtoast('Please fill in all fields');
         ok = false;
         break;
+      }
+    }
+
+    // Validate phone number format
+    if (ok && formdata['phone'] != null) {
+      String phone = formdata['phone']!.trim();
+      print("Original phone number: '$phone'");
+
+      // Test the phone number validation
+      testPhoneNumberValidation(phone);
+
+      // Remove any existing country code
+      if (phone.startsWith('+')) {
+        phone = phone.substring(1);
+        print("After removing +: '$phone'");
+      }
+      if (phone.startsWith('88')) {
+        phone = phone.substring(2);
+        print("After removing 88: '$phone'");
+      }
+
+      // For Bangladesh numbers, we need to handle the leading 0 properly
+      // Valid formats: 01XXXXXXXXX, 016XXXXXXXX, 017XXXXXXXX, 018XXXXXXXX, 019XXXXXXXX
+      if (phone.startsWith('0')) {
+        phone = phone.substring(1);
+        print("After removing leading 0: '$phone'");
+      }
+
+      print("Final processed phone: '$phone' (length: ${phone.length})");
+
+      // Check if it's a valid Bangladesh mobile number
+      // Should be 10 digits after removing leading 0, and should start with 1
+      if (phone.length != 10 || !phone.startsWith('1')) {
+        print(
+          "Phone validation failed: length=${phone.length}, startsWith1=${phone.startsWith('1')}",
+        );
+        showtoast(
+          'Please enter a valid Bangladesh mobile number (e.g., 01621009683, 01712345678)',
+        );
+        ok = false;
+      } else {
+        // Update the phone number to the cleaned format (without leading 0)
+        formdata['phone'] = phone;
+        print("Phone number validated successfully: ${formdata['phone']}");
       }
     }
 
@@ -152,6 +197,24 @@ class _RegisterpageState extends State<Registerpage> {
                                       : 'Phone Number',
                                 ),
                               ),
+                              // Phone number format hint
+                              if (!widget.isUpdateMode) ...[
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    left: 16,
+                                    top: 4,
+                                  ),
+                                  child: Text(
+                                    'Format: 01XXXXXXXXX (e.g., 01621009683)',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.grey[600],
+                                      fontStyle: FontStyle.italic,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 8),
+                              ],
                               SizedBox(height: 16),
                               TextFormField(
                                 onChanged: (value) {

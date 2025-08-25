@@ -14,11 +14,39 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 void main() async {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    print("Firebase initialized successfully");
+
+    // Test Firebase connection
+    try {
+      await FirebaseAuth.instance.authStateChanges().first;
+      print("Firebase Auth is working properly");
+
+      // Test Firestore connection
+      try {
+        await FirebaseFirestore.instance.collection('test').limit(1).get();
+        print("Firestore is working properly");
+      } catch (e) {
+        print("Firestore test failed: $e");
+      }
+    } catch (e) {
+      print("Firebase Auth test failed: $e");
+    }
+  } catch (e) {
+    print("Firebase initialization failed: $e");
+    // You might want to show an error dialog here
+  }
+
   runApp(const MyApp());
 }
 

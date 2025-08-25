@@ -51,19 +51,25 @@ Future<void> fetchAllInformation() async {
 
 Future<bool> checkPhoneLogin(String phone) async {
   try {
-    final snapshot =
+    print("Attempting login with phone: $phone");
+
+    // Check the 'informations' collection
+    final infoSnapshot =
         await FirebaseFirestore.instance
             .collection('informations')
             .where('phone', isEqualTo: phone)
             .get();
 
-    if (snapshot.docs.isNotEmpty) {
+    if (infoSnapshot.docs.isNotEmpty) {
+      print("User found in 'informations' collection");
       showtoast("Login successful ✅");
       return true;
-    } else {
-      showtoast("Wrong phone number ❌");
-      return false;
     }
+
+    // User not found
+    print("User not found in 'informations' collection");
+    showtoast("Phone number not registered. Please register first.");
+    return false;
   } catch (e) {
     showtoast("Something went wrong during login");
     print("Login error: $e");
@@ -76,22 +82,67 @@ Future<void> sendOTP({
   required Function(String verificationId) onCodeSent,
   required Function(FirebaseAuthException error) onError,
 }) async {
-  await FirebaseAuth.instance.verifyPhoneNumber(
-    phoneNumber: '+88$phoneNumber', // ⚠️ Include country code if needed
-    timeout: const Duration(seconds: 60),
-    verificationCompleted: (PhoneAuthCredential credential) async {
-      // Optional: auto sign-in (only on Android sometimes)
-    },
-    verificationFailed: (FirebaseAuthException e) {
-      onError(e); // 🟥 This must be called properly
-    },
-    codeSent: (String verificationId, int? resendToken) {
-      onCodeSent(verificationId); // ✅ THIS triggers OTP screen
-    },
-    codeAutoRetrievalTimeout: (String verificationId) {
-      // optional
-    },
-  );
+  try {
+    // Format phone number for Bangladesh (+88 country code)
+    String formattedPhone = phoneNumber.trim();
+
+    // Remove any existing country code
+    if (formattedPhone.startsWith('+')) {
+      formattedPhone = formattedPhone.substring(1);
+    }
+    if (formattedPhone.startsWith('88')) {
+      formattedPhone = formattedPhone.substring(2);
+    }
+
+    // For Bangladesh numbers, remove leading 0 if present
+    // Input: 01621009683 -> After processing: 1621009683
+    if (formattedPhone.startsWith('0')) {
+      formattedPhone = formattedPhone.substring(1);
+    }
+
+    // Validate the final phone number format
+    // Should be 10 digits starting with 1 (after removing leading 0)
+    if (formattedPhone.length != 10 || !formattedPhone.startsWith('1')) {
+      throw Exception(
+        'Invalid phone number format. Expected 10 digits starting with 1 after removing leading 0 (e.g., 1621009683)',
+      );
+    }
+
+    final fullPhoneNumber = '+88$formattedPhone';
+    print("Sending OTP to: $fullPhoneNumber");
+    print("Original phone: $phoneNumber");
+    print("Formatted phone: $formattedPhone");
+
+    await FirebaseAuth.instance.verifyPhoneNumber(
+      phoneNumber: fullPhoneNumber,
+      timeout: const Duration(seconds: 120), // Increased timeout
+      verificationCompleted: (PhoneAuthCredential credential) async {
+        print("Auto verification completed for: ${credential.smsCode}");
+        // This is optional and only works on some Android devices
+      },
+      verificationFailed: (FirebaseAuthException e) {
+        print("Verification failed: ${e.code} - ${e.message}");
+        onError(e);
+      },
+      codeSent: (String verificationId, int? resendToken) {
+        print("OTP code sent successfully. Verification ID: $verificationId");
+        onCodeSent(verificationId);
+      },
+      codeAutoRetrievalTimeout: (String verificationId) {
+        print(
+          "OTP auto-retrieval timeout for verification ID: $verificationId",
+        );
+      },
+    );
+  } catch (e) {
+    print("Error in sendOTP: $e");
+    // Create a generic FirebaseAuthException for the error callback
+    final error = FirebaseAuthException(
+      code: 'unknown',
+      message: 'Failed to send OTP: $e',
+    );
+    onError(error);
+  }
 }
 
 Future<bool> updateUserInformation(
@@ -121,14 +172,18 @@ Future<bool> updateUserInformation(
 
 Future<Map<String, String>?> fetchUserByPhone(String phone) async {
   try {
-    final snapshot =
+    print("Fetching user data for phone: $phone");
+
+    // Fetch from the 'informations' collection
+    final infoSnapshot =
         await FirebaseFirestore.instance
             .collection('informations')
             .where('phone', isEqualTo: phone)
             .get();
 
-    if (snapshot.docs.isNotEmpty) {
-      final data = snapshot.docs.first.data();
+    if (infoSnapshot.docs.isNotEmpty) {
+      print("User data found in 'informations' collection");
+      final data = infoSnapshot.docs.first.data();
       return {
         'name': data['name'] ?? '',
         'phone': data['phone'] ?? '',
@@ -139,6 +194,8 @@ Future<Map<String, String>?> fetchUserByPhone(String phone) async {
         'session': data['session'] ?? '',
       };
     }
+
+    print("User data not found in 'informations' collection");
     return null;
   } catch (e) {
     print('Error fetching user data: $e');

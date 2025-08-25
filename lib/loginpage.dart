@@ -28,27 +28,42 @@ class _LoginpageState extends State<Loginpage> {
 
     Future<void> handleLogin() async {
       final phone = phoneController.text.trim();
+      print("Login attempt with phone: $phone");
 
       if (phone.isEmpty) {
         showtoast("Please enter your phone number");
         return;
       }
 
+      print("Calling checkPhoneLogin...");
       final success = await checkPhoneLogin(phone);
+      print("Login result: $success");
 
       if (success) {
+        print("Login successful, fetching user data...");
         // Store the current user's phone number
         currentUserPhone = phone;
 
         // Fetch complete user information
         final userData = await fetchUserByPhone(phone);
+        print("Fetched user data: $userData");
+
         if (userData != null) {
           currentUserName = userData['name'] ?? '';
           currentUserBloodGroup = userData['bloodGroup'] ?? '';
           currentUserDepartment = userData['department'] ?? '';
           currentUserSession = userData['session'] ?? '';
+
+          print("Stored user data:");
+          print("  Name: $currentUserName");
+          print("  Blood Group: $currentUserBloodGroup");
+          print("  Department: $currentUserDepartment");
+          print("  Session: $currentUserSession");
+        } else {
+          print("Failed to fetch user data");
         }
 
+        print("Navigating to Secondsplashscreen...");
         Navigator.push(
           // ignore: use_build_context_synchronously
           context,
@@ -58,6 +73,8 @@ class _LoginpageState extends State<Loginpage> {
             duration: const Duration(milliseconds: 400),
           ),
         );
+      } else {
+        print("Login failed");
       }
     }
 
@@ -124,6 +141,18 @@ class _LoginpageState extends State<Loginpage> {
                         controller: phoneController,
                         onChanged: (value) {},
                         decoration: AppInputDecoration("Phone Number"),
+                      ),
+                      // Phone number format hint
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16, top: 4),
+                        child: Text(
+                          'Enter your registered phone number (e.g., 01621009683)',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey[600],
+                            fontStyle: FontStyle.italic,
+                          ),
+                        ),
                       ),
                       const SizedBox(height: 16),
                       const SizedBox(height: 24),
