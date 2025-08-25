@@ -75,30 +75,32 @@ class _GetStartedState extends State<GetStarted> {
                       Image.asset('asset_project/IST.png', fit: BoxFit.fill),
                       const SizedBox(height: 20),
                       const Text(
-                        "IST Blood Donors",
+                        "IST BLOOD DONORS",
                         style: TextStyle(
                           fontSize: 26,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       const Text(
-                        "Give Blood . Save Lives",
-                        style: TextStyle(fontSize: 12),
+                        "রক্তদাতার দিন . জীবন বাচান",
+                        style: TextStyle(fontSize: 15),
                       ),
 
                       SizedBox(height: screenSize.height * 0.2),
                       ElevatedButton(
                         onPressed:
-                            () =>
-                                Navigator.pushReplacementNamed(context, 'login'),
+                            () => Navigator.pushReplacementNamed(
+                              context,
+                              'login',
+                            ),
                         style: ElevatedButton.styleFrom(
                           elevation: 10,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(40),
                           ),
                           minimumSize: Size(
-                            screenSize.height * 0.5,
-                            screenSize.width * 0.2,
+                            screenSize.width * 0.8,
+                            screenSize.height * 0.1,
                           ),
                         ),
                         child: const Text(
