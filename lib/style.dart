@@ -83,10 +83,10 @@ Container ScreenBackgroundReg(context) {
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
         colors: [
-          Color.fromARGB(255, 255, 132, 71), // গাঢ় নীল
-          Color(0xFF2C5364), // গাঢ় পার্পল/ম্যাজেন্টা
+          Color.fromARGB(255, 249, 65, 28), // গাঢ় নীল
+          Color.fromARGB(255, 255, 255, 255), // গাঢ় পার্পল/ম্যাজেন্টা
         ],
-        stops: [0.5, 0.9],
+        stops: [0.1, 0.5],
       ),
     ),
   );

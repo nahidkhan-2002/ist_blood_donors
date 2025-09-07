@@ -83,11 +83,11 @@ class _RegisterpageState extends State<Registerpage> {
                 scale: 0.9,
                 child: Center(
                   child: BlurryContainer.expand(
-                    blur: 15,
-                    elevation: 5,
-                    color: Colors.transparent,
+                    blur: 5,
+                    elevation: 10,
+                    color: const Color.fromARGB(45, 248, 248, 248),
                     padding: const EdgeInsets.all(8),
-                    borderRadius: const BorderRadius.all(Radius.circular(20)),
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
                     child: Center(
                       child: SingleChildScrollView(
                         padding: EdgeInsets.all(20),
