@@ -155,12 +155,12 @@ class _RegisterpageState extends State<Registerpage> {
             children: [
               Spacer(),
               Transform.translate(
-                offset: Offset(0, 130),
+                offset: Offset(0, 150),
                 child: ClipOval(
                   child: Container(
                     width: MediaQuery.sizeOf(context).width,
                     height: MediaQuery.sizeOf(context).height * 0.3,
-                    color: const Color.fromARGB(53, 17, 121, 132),
+                    color: const Color.fromARGB(144, 241, 52, 39),
                   ),
                 ),
               ),
@@ -270,6 +270,7 @@ class _RegisterpageState extends State<Registerpage> {
                                           await validateAndSubmit();
                                         },
                                         style: ElevatedButton.styleFrom(
+                                          elevation: 5,
                                           minimumSize: Size(
                                             MediaQuery.of(context).size.width *
                                                 0.8,
@@ -290,10 +291,10 @@ class _RegisterpageState extends State<Registerpage> {
                                             0,
                                           ),
                                           highlightColor: const Color.fromARGB(
-                                            163,
-                                            225,
-                                            70,
-                                            27,
+                                            255,
+                                            249,
+                                            1,
+                                            1,
                                           ),
                                           child: Text(
                                             widget.isUpdateMode

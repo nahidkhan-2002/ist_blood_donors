@@ -82,7 +82,7 @@ class _GetStartedState extends State<GetStarted> {
                         ),
                       ),
                       const Text(
-                        "রক্তদাতার দিন . জীবন বাচান",
+                        "রক্ত দান করুন . জীবন বাচান",
                         style: TextStyle(fontSize: 15),
                       ),
 
